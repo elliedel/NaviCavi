@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Gallery Image - {% endblock %}
+
+{% block content %}
+<div class="container d-flex flex-column justify-content-center pb-5 text-center min-vh-100">    
+    <h1 class="text-primary mb-4 mt-3">{{ display_img_result.patient_name }}</h1>
+
+    <div class="mb-4">
+        <img src="{{ url_for('views.serve_gallery_image', id=display_img_result.id) }}" class="img-fluid rounded shadow-lg" alt="{{ display_img_result.name }}" style="max-width: 80%; height: auto;">
+    </div>
+
+    <form action="{{ url_for('views.delete_image', id=display_img_result.id) }}" method="POST">
+        <div class="field">
+            <label class="checkbox">
+                <input type="checkbox" id="confirm_delete" onchange="toggleDeleteButton()">
+                I confirm I want to delete this image
+            </label>
+        </div>
+        
+        <button type="submit" class="btn btn-danger" id="delete_button" disabled>
+            <i class="bi bi-trash"></i> Delete Image
+        </button>
+    </form>
+
+    <a href="{{ url_for('views.gallery') }}" class="btn btn-outline-primary">
+        <i class="bi bi-arrow-left"></i> Back to Gallery
+    </a>
+    
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function toggleDeleteButton() {
+        const checkbox = document.getElementById('confirm_delete');
+        const deleteButton = document.getElementById('delete_button');
+        deleteButton.disabled = !checkbox.checked;
+    }
+    </script>
+{% endblock %}

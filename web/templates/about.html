@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block title %}About NaviCavi - {% endblock %}
+
+{% block content %}
+<div class="container d-flex flex-column justify-content-center">
+    <h1 class="text-uppercase text-primary text-center pt-5">About</h1>
+    
+    <h6 class="text-body mb-5 text-center min-h-50 px-30 fade-in">
+        <b>NaviCavi</b> is a dental caries detection solution developed by B.S. in Computer Science students at 
+        Our Lady of Fatima University as part of their Undergraduate Thesis project. This innovative web-based 
+        platform utilizes a Convolutional Neural Network (CNN) algorithm to automatically detect and segment dental 
+        caries in panoramic dental radiographs, accurately pinpointing areas of concern.
+    </h6>
+
+    <section class="pt-5 min-h-60 px-30 fade-in">
+        <h2 class="text-primary display-5 py-5 text-center">Meet Our <span class="fw-bold">Team</span></h2>
+        <div class="row justify-content-center">
+            <div class="col-6 col-md-3 text-center mb-4">
+                <img src="/static/imgs/AlvaJanPaulMiguel.png" alt="Jan Paul Miguel Alva" class="img-fluid rounded-circle" height="120">
+                <p class="mt-2"><b>Jan Paul Miguel Alva</b></p>
+            </div>
+            <div class="col-6 col-md-3 text-center mb-4">
+                <img src="/static/imgs/DelaCruzEllaine.png" alt="Ellaine Dela Cruz" class="img-fluid rounded-circle" height="120">
+                <p class="mt-2"><b>Ellaine Dela Cruz</b></p>
+            </div>
+            <div class="col-6 col-md-3 text-center mb-4">
+                <img src="/static/imgs/DelaCruzLouisPhilip.png" alt="Louis Philip Dela Cruz" class="img-fluid rounded-circle" height="120">
+                <p class="mt-2"><b>Louis Philip Dela Cruz</b></p>
+            </div>
+            <div class="col-6 col-md-3 text-center mb-4">
+                <img src="/static/imgs/LunaAsherFrank.png" alt="Asher Frank Luna" class="img-fluid rounded-circle" height="120">
+                <p class="mt-2"><b>Asher Frank Luna</b></p>
+            </div>
+        </div>
+    </section>
+
+    <section id="Acknowledgments" class="text-center py-5 min-h-50 px-30 fade-in">
+        <h2 class="text-primary display-5 text-center pt-5">Acknowledgments</h2>
+        <p class="text-muted mb-5 px-30">We would like to express our gratitude to those who contributed to our thesis project:</p>
+        <ul class="list-unstyled text-muted mb-5 text-justify">
+            <li class="pb-2"><b>Dr. Jeffrey F. Calim</b> - Our reliable and dedicated Research Adviser.</li>
+            <li class="pb-2"><b>Mr. Mark Joseph M. Barcel</b> - Our skilled and invaluable Technical Adviser.</li>
+            <li class="pb-2"><b>Dr. Jonas B. De Venecia</b> - for his expertise in dentistry.</li>
+            <li class="pb-2"><b>Ms. Jenica Ana A. Rivero</b> - for ensuring our research adhered to ethical standards.</li>
+            <li class="pb-2"><b>Mr. Jermaine Khyzer D. Gabest</b> - for his assistance in labelling our datasets.</li>
+        </ul>
+    </section>
+
+    <section id="EmailUs" class="text-center py-5 min-h-60 px-30 fade-in">
+        <h2 class="text-primary display-5 text-center pt-5">Want to Learn More?</h2>
+        <p class="text-muted mb-5 px-30">Contact us to discover how NaviCavi can help you detect dental caries faster and more accurately! If you're ready to join, let us know and we'll help you get started with your account.</p>
+        <form method="POST" action="/submit_contact_form" class="w-75 mx-auto mb-5">
+            <div class="mb-3">
+                <input type="text" class="form-control" id="contact_name" name="contact_name" placeholder="Name" required>
+            </div>
+            <div class="mb-3">
+                <input type="email" class="form-control" id="contact_email" name="contact_email" placeholder="E-mail" required>
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" id="contact_subject" name="contact_subject" placeholder="Subject" required>
+            </div>
+            <div class="mb-3">
+                <textarea class="form-control" id="message" name="message" rows="5" placeholder="Message..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg w-100 mt-3">Send Message</button>
+        </form>
+    </section>
+
+    <section class="container text-center py-5 fade-in">
+        <div class="container">
+            <p class="px-50">
+                This is part of an undergraduate research paper by Alva, E. Dela Cruz, L. Dela Cruz, and Luna 
+                for Our Lady of Fatima University Quezon City - College of Computer Studies.
+            </p>
+            <p class="mb-4 px-50">
+                All Rights Reserved.
+            </p>
+            <div class="row justify-content-center px-50">
+                <div class="col-3 text-center mt-3 mb-4">
+                    <img src="/static/imgs/olfu-logo.png" alt="Our Lady of Fatima University Logo" class="img-fluid h-100" height="120">
+                </div>
+                <div class="col-3 text-center mt-3 mb-4 ms-5">
+                    <img src="/static/imgs/olfu-ccs-logo.png" alt="OLFU College of Computer Studies Logo" class="img-fluid h-100" height="120">
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+.features-container {
+    height: 100%;
+}
+
+.row {
+    height: 33.33%;
+}
+
+.object-fit-cover {
+    object-fit: cover;
+}
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const scrollToSection = urlParams.get('scrollTo');
+
+  // Scroll to the section if the scrollTo parameter exists
+  if (scrollToSection) {
+    const section = document.getElementById(scrollToSection);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const fadeIns = document.querySelectorAll('.fade-in');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, {
+            threshold: 0.3,
+        });
+
+        fadeIns.forEach(section => {
+            observer.observe(section);
+        });
+    });
+
+</script>
+{% endblock %}

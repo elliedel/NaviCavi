@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if latest_image %}
+<div class="container d-flex flex-column justify-content-center text-center">
+    <form action="/confirm_processed_image" enctype="multipart/form-data" method="POST">
+    <!--https://navicavi.onrender.com/confirm_processed_image     http://127.0.0.1:5000-->
+        <div class="row mt-4">
+            <div class="col-md-3 bg-white mb-5">
+                <button class="btn btn-outline-primary mt-3 mb-3" onclick="window.history.back()">
+                    <i class="bi bi-arrow-left"></i> Back
+                </button>
+                <h2 class="h1 text-primary text-center pt-5">Results</h2>
+
+                <div class="card" style="box-shadow: none;">
+                  <div class="card-body">
+                    {% if caries_info %}
+                    <div class="caries-info">
+                      <ul class="text-primary border-bottom pb-2 mb-2">
+                        {% for caries in caries_info %}
+                          <li class="card-text">{{ caries }}</li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <input class="form-control mt-5" type="text" placeholder="Patient's Name" id="patient_name" name="patient_name" aria-label="patient-name">
+                <div class="form-check mt-5 mb-5">
+                    <input class="custom-control-input" type="checkbox" value="result_consent" name="result_consent" id="result_consent">
+                    <label class="form-check-label text-primary" for="result_consent">
+                        Save Results to Gallery
+                    </label>
+                </div>
+
+                <div class="d-flex flex-column align-items-center text-center mt-3 mb-5">
+                  <span class="mb-3">Rate this result:</span>
+                
+                  <div class="btn-group-vertical" role="group" aria-label="Rating">
+                    <input type="radio" class="btn-check" name="rating" id="thumbsUp" value="like" autocomplete="off">
+                    <label class="btn btn-outline-primary mb-2" for="thumbsUp">
+                      <i class="bi bi-hand-thumbs-up"></i> Thumbs Up
+                    </label>
+                
+                    <input type="radio" class="btn-check" name="rating" id="thumbsDown" value="dislike" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="thumbsDown">
+                      <i class="bi bi-hand-thumbs-down"></i> Thumbs Down
+                    </label>
+                  </div>
+                </div>
+                
+                <button class="btn btn-primary mb-3" type="submit">Save Results</button>
+            </div>
+
+            <div class="col-md-9">
+                <div id="imageCarousel" class="carousel slide">
+                    <div class="carousel-indicators">
+                      <button type="button" data-bs-target="#imageCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                      <button type="button" data-bs-target="#imageCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                      <button type="button" data-bs-target="#imageCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                      <button type="button" data-bs-target="#imageCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                          <img id="resultImage" src="{{ url_for('views.serve_image', filename=annotated_is_image_path) }}" alt="Results Image" class="d-block w-100 vh-100 shadow-sm p-3 mb-5 bg-body rounded">
+                        </div>
+                        <div class="carousel-item">
+                          <img id="rawImage" src="{{ url_for('views.serve_image', filename=raw_image_path) }}" alt="Uploaded Image" class="d-block w-100 vh-100 shadow-sm p-3 mb-5 bg-body rounded">
+                        </div>
+                        <div class="carousel-item">
+                          <img id="cariesCM" src="static/imgs/caries-confusion_matrix_normalized.png" alt="Caries Confusion Matrix (Normalized)" class="d-block w-100 vh-100 shadow-sm p-3 mb-5 bg-body rounded">
+                        </div>
+                        <div class="carousel-item">
+                          <img id="rawImage" src="static/imgs/tooth_type-confusion_matrix_normalized.png" alt="Tooth Type Confusion Matrix (Normalized)" class="d-block w-100 vh-100 shadow-sm p-3 mb-5 bg-body rounded">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% else %}
+<div class="container hero d-flex flex-column justify-content-center text-center mt-5">
+    
+  <h1 class="text-primary">Hello {{ user.first_name}} {{ user.last_name}},</h1>
+  <h4 class="text-primary">Upload a Dental X-ray Image Here</h4>
+  
+  <form action="/upload" enctype="multipart/form-data" method="POST"> 
+  <!--https://navicavi.onrender.com/upload     http://127.0.0.1:5000-->
+    <div class="py-5 hero-btn-group d-flex justify-content-center">
+      <div class="file is-large is-light is-boxed">
+          <label class="file-label" id="fileLabel">
+            <input class="file-input" type="file" name="img_upload" id="img_upload" onchange="previewImage(event)" />
+            <span class="file-cta">
+              <span class="file-icon">
+                <i class="bi bi-upload"></i>
+              </span>
+              <span class="file-label">Choose a file...</span>
+            </span>
+          </label>
+      </div>
+    </div>
+
+    <!-- Image Consent -->
+    <div class="form-check d-flex justify-content-center align-items-center">
+      <input class="custom-control-input" type="checkbox" value="upload_consent" name="upload_consent" id="upload_consent" onchange="toggleUploadButton()">
+      <label class="form-check-label ps-2" for="upload_consent">
+        I agree to allow my uploaded image to be saved in the system for further use, including analysis, research, and improvement of services.
+      </label>
+    </div>    
+
+    <div class="mt-3 pt-5 d-flex flex-column align-items-center">
+      <button class="btn btn-primary btn-girthier" type="submit" id="upload_button" disabled>Upload Image</button>
+      <p class="pb-3 pt-3 text-center">Accepted file formats: JPG, JPEG, PNG</p>
+    </div>
+  
+  </form>
+  {% if current_user.id == 1 %}
+  <div class="invite-link-container m-3">
+    {% if invite_url %}
+        <p>Your invite link (generated on page load): <!--a href="{{ invite_url }}" class="disabled">{{ invite_url }}</a>-->{{ invite_url }}</p>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function toggleUploadButton() {
+      const checkbox = document.getElementById('upload_consent');
+      const uploadButton = document.getElementById('upload_button');
+      uploadButton.disabled = !checkbox.checked;
+  }
+
+    function previewImage(event) {
+        const fileInput = document.getElementById('img_upload');
+        const file = fileInput.files[0];
+        const fileLabel = document.getElementById('fileLabel');
+        const fileNameElement = fileLabel.querySelector('.file-label');
+        const fileIconElement = fileLabel.querySelector('.file-icon');
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Set image preview inside the button as a small thumbnail
+                fileIconElement.innerHTML = `<img src="${e.target.result}" class="img-thumbnail" style="max-width: 50px; max-height: 50px;">`;
+                // Update the file name inside the button
+                fileNameElement.textContent = file.name;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+{% endblock %}

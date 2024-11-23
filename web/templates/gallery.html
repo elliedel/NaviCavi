@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Results Gallery - {% endblock %}
+
+{% block content %}
+<div class="container-fluid d-flex flex-column justify-content-center pb-5 text-center min-vh-100">
+    <h1 class="text-primary mb-4 pt-5">Results Gallery</h1>
+    {% if gallery_images.items %}
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for image in gallery_images.items %}
+            <div class="col">
+                <a href="{{ url_for('views.gallery_image', id=image.id) }}">
+                    <div class="card h-100 border-primary">
+                        <img src="{{ url_for('views.serve_gallery_image', id=image.id) }}" class="card-img-top" alt="Image">
+                        <div class="card-body">
+                            <h5 class="card-title lead">{{ image.patient_name }}</h5>
+                        </div>
+                    </div>
+
+                </a>
+            </div>
+            {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation" class="mt-5">
+        <ul class="pagination justify-content-center px-5">
+            {% if gallery_images.has_prev %}
+            <li class="page-item">
+                <a class="page-link text-primary" href="{{ url_for('views.gallery', page=gallery_images.prev_num) }}" aria-label="Previous">
+                    <span aria-hidden="true">Previous</span>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link text-purple" aria-hidden="true">Previous</span>
+            </li>
+            {% endif %}
+
+            {% for page_num in gallery_images.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                {% if page_num %}
+                    {% if page_num == gallery_images.page %}
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link bg-purple">{{ page_num }}</span>
+                    </li>
+                    {% else %}
+                    <li class="page-item">
+                        <a class="page-link text-purple" href="{{ url_for('views.gallery', page=page_num) }}">{{ page_num }}</a>
+                    </li>
+                    {% endif %}
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">...</span></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if gallery_images.has_next %}
+            <li class="page-item">
+                <a class="page-link text-primary" href="{{ url_for('views.gallery', page=gallery_images.next_num) }}" aria-label="Next">
+                    <span aria-hidden="true">Next</span>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link text-purple" aria-hidden="true">Next</span>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% else %}
+        <div class="container min-h-60 d-flex flex-column justify-content-center">
+            <blockquote class="blockquote">
+                <h4 class="text-muted">No images uploaded yet.</h4>
+            </blockquote>
+            <i class="bi bi-images fs-1"></i>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

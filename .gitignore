@@ -1,0 +1,11 @@
+/__pycache__
+/navienv
+
+/web/__pycache__
+/web/admin.py
+/web/__init__.py
+/web/models/is_last.pt
+/web/models/ToothType.pt
+
+.gitattributes
+.git

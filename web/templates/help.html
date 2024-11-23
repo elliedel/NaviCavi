@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}Help - {% endblock %}
+
+{% block content %}
+<div class="container-fluid d-flex flex-column justify-content-center pb-5 text-center min-vh-100">
+    <h5 class="text-primary fs-2 mb-2 pt-5">How can we help you?</h5>
+    
+    <div class="my-5 px-5 fw-normal">
+        <div class="input-group px-50 mb-5">
+            <span class="input-group-text" id="search-icon"><i class="bi bi-search"></i></span>
+            <input type="text" id="searchInput" class="form-control" placeholder="Search for a question..." onkeyup="searchFAQ()">
+        </div>
+    </div>
+
+    <div class="accordion" id="faqAccordion">
+        <div class="accordion-item">
+            <h4 class="accordion-header h2" id="headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    Logging In
+                </button>
+            </h4>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <ul class="list-group">
+                        <li class="list-group-item text-start">To access the system, you need to log in using your email and password.</li>
+                        <li class="list-group-item text-start">If you don’t have an account, please contact the administrator for an invitation link to register.</li>
+                        <!--<li class="list-group-item text-start">If you forget your password, click the "Forgot Password?" link to reset it.</li>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h4 class="accordion-header h2" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Uploading Dental Images
+                </button>
+            </h4>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <ul class="list-group">
+                        <li class="list-group-item text-start">Navigate to the <strong>Upload</strong> section.</li>
+                        <li class="list-group-item text-start">Select a clear <strong>panoramic dental X-ray image</strong> and click the Upload Image button.</li>
+                        <li class="list-group-item text-start">Please make sure that the image is in a supported format: JPG, JPEG or PNG.</li>
+                        <li class="list-group-item text-start">After you upload, the system will automatically process the image for you.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h4 class="accordion-header h2" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseTwo">
+                    Processing Image
+                </button>
+            </h4>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <ul class="list-group">
+                        <li class="list-group-item text-start">The system uses two trained YOLOv8 model for <strong>tooth object detection</strong> and <strong>caries instance segmentation</strong> to point out the caries in a dental panoramic x-ray.</li>
+                        <li class="list-group-item text-start">It will check each tooth for any signs of dental caries.</li>
+                        <li class="list-group-item text-start">The time it takes to process the image may change based on how big the image is.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h4 class="accordion-header h2" id="headingFour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    Viewing Results
+                </button>
+            </h4>
+            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <ul class="list-group">
+                        <li class="list-group-item text-start">Once the processing is done, you can see both the <strong>original image</strong> and the <strong>processed image</strong> with any cavities highlighted.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h4 class="accordion-header h2" id="headingFive">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                    Saving Results
+                </button>
+            </h4>
+            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <ul class="list-group">
+                        <li class="list-group-item text-start">You can choose to <strong>save</strong> the processed image after reviewing it.</li>
+                        <li class="list-group-item text-start">Saved images are stored in your personal gallery for future reference.</li>
+                        <li class="list-group-item text-start">Saved images are visible only to you unless shared.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h4 class="accordion-header h2" id="headingSix">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                    Rating Results
+                </button>
+            </h4>
+            <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <ul class="list-group">
+                        <li class="list-group-item text-start">You can rate the results you see as either <strong>Good</strong> or <strong>Bad</strong>.</li>
+                        <li class="list-group-item text-start">Your ratings help us improve the system for everyone.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h4 class="accordion-header h2" id="headingSeven">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                    Deleting Images
+                </button>
+            </h4>
+            <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    <ul class="list-group">
+                        <li class="list-group-item text-start">To delete a saved image, go to your gallery and select the image you want to delete.</li>
+                        <li class="list-group-item text-start">Below the image, tick the consent checkbox to be able to remove the image.</li>
+                        <li class="list-group-item text-start">Keep in mind, if you delete a processed image, its original image will also be deleted.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="noResults" class="text-center mt-3" style="display:none;">
+            <p>No matching results found.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function searchFAQ() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let items = document.querySelectorAll('.accordion-item');
+        let found = false;
+
+        items.forEach(function(item) {
+            let header = item.querySelector('.accordion-header button').textContent.toLowerCase();
+            let body = item.querySelector('.accordion-body').textContent.toLowerCase();
+
+            // Check if the input matches either the header or the body
+            if (header.includes(input) || body.includes(input)) {
+                item.style.display = ""; // Show item
+                found = true;
+            } else {
+                item.style.display = "none"; // Hide item
+            }
+        });
+
+        // Show or hide the "No Results" message
+        document.getElementById('noResults').style.display = found ? "none" : "block";
+    }
+</script>
+{% endblock %}

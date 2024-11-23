@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ error_code }} - {{error_name}}{% endblock %}
+
+{% block content %}
+
+<div class="container hero d-flex flex-column justify-content-center text-center">
+    <h1 class="text-uppercase text-primary">{{ error_code }} - {{error_name}}</h1>
+    <h5 class="text-primary">{{ error_message }}</h5>
+    <h6 class="text-body pt-5">
+        Please try again later or <a href="{{ url_for('views.home') }}">go back to Home</a>.
+    </h6>
+
+
+</div>
+
+{% endblock %}
